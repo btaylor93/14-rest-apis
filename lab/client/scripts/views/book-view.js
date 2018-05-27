@@ -75,14 +75,17 @@ var app = app || {};
   };
 
 // COMMENT: What is the purpose of this method?
+// This function makes it so that only the search form view is visible, and creates an event listener for the search form.
   bookView.initSearchFormPage = function() {
     app.showOnly('.search-view');
 
     $('#search-form').on('submit', function(event) {
       // COMMENT: What default behavior is being prevented here?
+      // By default, submitting a form redirects you to url/path?, which is a page that doesn't exist.
       event.preventDefault();
 
       // COMMENT: What is the event.target, below? What will happen if the user does not provide the information needed for the title, author, or isbn properties?
+      // The event target is the search form. If a field is left blank, the property is assigned an empty string as it's value.
       let book = {
         title: event.target.title.value || '',
         author: event.target.author.value || '',
@@ -92,6 +95,7 @@ var app = app || {};
       module.Book.find(book, bookView.initSearchResultsPage);
 
       // COMMENT: Why are these values set to an empty string?
+      // This empties out the form.
       event.target.title.value = '';
       event.target.author.value = '';
       event.target.isbn.value = '';
@@ -99,15 +103,18 @@ var app = app || {};
   }
 
   // COMMENT: What is the purpose of this method?
+  // This function makes it so that only the search result view is visible, appends the search results to the search list, and creates a 'add to list' button and sets up the event listener for that button.
   bookView.initSearchResultsPage = function() {
     app.showOnly('.search-results');
     $('#search-list').empty();
 
     // COMMENT: Explain how the .forEach() method is being used below.
+    // The book.toHtml() method is invoked on each book object in module.Book.all, and the resulting DOM objects are appended to the search list.
     module.Book.all.forEach(book => $('#search-list').append(book.toHtml()));
     $('.detail-button a').text('Add to list').attr('href', '/');
     $('.detail-button').on('click', function(e) {
       // COMMENT: Explain the following line of code.
+      // This is navigating up the DOM tree from the detail button to its parent li and retrieving the value of its data-bookid attribute. The module.Book.findOne method is then called using this value.
       module.Book.findOne($(this).parent().parent().parent().data('bookid'))
     });
   }
