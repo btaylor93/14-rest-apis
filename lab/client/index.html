@@ -63,6 +63,7 @@
         <li class="admin"><a href="/books/new">add book</a></li>
         <li class="admin"><a href="/books/search">search g-books</a></li>
         <!-- COMMENT: This will allow users to log in as an admin using a passphrase, but there is no way to log out. How would you enhance this application to allow a user to log out? -->
+        <!-- One thing that you could do is change the href and text of this link when localStorage.token === true, so that the link says logout and when it is pressed localStorage.token is set back to false and the logout link is then reverted back to a login button. -->
         <li><a href="/admin">login</a></li>
       </ul>
     </nav>
